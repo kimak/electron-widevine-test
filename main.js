@@ -10,12 +10,30 @@ const BrowserWindow = electron.BrowserWindow;
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+
+//let widevine_adapter_path= app.getPath('appData').concat('/electron-quick-start/widevine/1.4.8.866/_platform_specific/mac_x64/widevinecdmadapter.plugin');
+let widevine_adapter_path = './widevine/1.4.8.866/_platform_specific/mac_x64/widevinecdmadapter.plugin';
+
+app.commandLine.appendSwitch('widevine-cdm-path', widevine_adapter_path);
+app.commandLine.appendSwitch('widevine-cdm-version', '1.4.8.866');
+
+//console.log("widevine_adapter_path') ",widevine_adapter_path)
+// The version of plugin can be got from `chrome://plugins` page in Chrome.
+//app.commandLine.appendSwitch('register-pepper-plugins', widevine_adapter_path+";application/x-ppapi-widevine-cdm");
+
+
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow({
+    webPreferences: {
+      // The `plugins` have to be enabled.
+      plugins: true
+    }
+  });
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  //mainWindow.loadURL('file://' + __dirname + '/index.html');
+  mainWindow.loadURL("http://www.dash-player.com/demo/drm-test-area/")
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
