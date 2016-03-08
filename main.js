@@ -1,6 +1,7 @@
 'use strict';
 
 const electron = require('electron');
+const path = require('path');
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -12,10 +13,26 @@ let mainWindow;
 
 
 //let widevine_adapter_path= app.getPath('appData').concat('/electron-quick-start/widevine/1.4.8.866/_platform_specific/mac_x64/widevinecdmadapter.plugin');
-let widevine_adapter_path = './widevine/1.4.8.866/_platform_specific/mac_x64/widevinecdmadapter.plugin';
 
-app.commandLine.appendSwitch('widevine-cdm-path', widevine_adapter_path);
-app.commandLine.appendSwitch('widevine-cdm-version', '1.4.8.866');
+let widevineVersion = '1.4.8.866';
+let baseWidevinePath ='./widevine/'+widevineVersion+'/_platform_specific/';
+var widevine_adapter_path ='';
+
+switch(process.platform)
+{
+      case "win32":
+        widevine_adapter_path = baseWidevinePath+'win_x86/widevinecdmadapter.dll';
+      break
+      case "win64":
+        widevine_adapter_path = baseWidevinePath+'win_x64/widevinecdmadapter.dll';
+      break
+      default:
+        widevine_adapter_path = baseWidevinePath+'mac_x64/widevinecdmadapter.plugin';
+      break
+}
+
+app.commandLine.appendSwitch('widevine-cdm-path', path.join(__dirname, widevine_adapter_path));
+app.commandLine.appendSwitch('widevine-cdm-version', widevineVersion);
 
 //console.log("widevine_adapter_path') ",widevine_adapter_path)
 // The version of plugin can be got from `chrome://plugins` page in Chrome.
