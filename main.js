@@ -10,8 +10,6 @@ const BrowserWindow = electron.BrowserWindow;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-
-
 //let widevine_adapter_path= app.getPath('appData').concat('/electron-quick-start/widevine/1.4.8.866/_platform_specific/mac_x64/widevinecdmadapter.plugin');
 
 let widevineVersion = '1.4.8.866';
@@ -21,11 +19,8 @@ var widevine_adapter_path ='';
 switch(process.platform)
 {
       case "win32":
-        widevine_adapter_path = baseWidevinePath+'win_x86/widevinecdmadapter.dll';
-      break
-      case "win64":
-        widevine_adapter_path = baseWidevinePath+'win_x64/widevinecdmadapter.dll';
-      break
+        widevine_adapter_path = baseWidevinePath+process.platform + "/" + process.arch +'/widevinecdmadapter.dll';
+      break;
       default:
         widevine_adapter_path = baseWidevinePath+'mac_x64/widevinecdmadapter.plugin';
       break
